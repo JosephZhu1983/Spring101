@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=me.josephzhu.spring101customstarter.MyAutoConfiguration
+org.springframework.boot.env.EnvironmentPostProcessor=me.josephzhu.spring101customstarter.MyPropertySourceEnvironmentPostProcessor
+org.springframework.boot.diagnostics.FailureAnalyzer=me.josephzhu.spring101customstarter.MyFailureAnalyzer

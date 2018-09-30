@@ -1,0 +1,30 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "me.josephzhu.spring101customstarter.MyServiceProperties",
+      "name": "spring101",
+      "type": "me.josephzhu.spring101customstarter.MyServiceProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "me.josephzhu.spring101customstarter.MyServiceProperties",
+      "name": "spring101.age",
+      "description": "user age *Should between 1 and 120",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "me.josephzhu.spring101customstarter.MyServiceProperties",
+      "name": "spring101.name",
+      "description": "user name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "me.josephzhu.spring101customstarter.MyServiceProperties",
+      "name": "spring101.version",
+      "description": "determine the service version you want use",
+      "type": "java.lang.String"
+    }
+  ]
+}
