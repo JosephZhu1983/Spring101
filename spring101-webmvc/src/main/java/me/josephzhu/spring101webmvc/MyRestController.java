@@ -23,6 +23,7 @@ public class MyRestController {
     }
 
     @RequestMapping(value = "item/{id}", method = RequestMethod.GET)
+    @Sign
     public MyItem getItem(@PathVariable("id") String id) {
         Integer i = null;
         try {
@@ -35,7 +36,6 @@ public class MyRestController {
     }
 
     @GetMapping("search")
-    @Sign
     public List<MyItem> search(@RequestParam("type") ItemTypeEnum itemTypeEnum) {
         return IntStream.range(1, 5)
                 .mapToObj(i -> new MyItem(itemTypeEnum.name() + i, i * 100))

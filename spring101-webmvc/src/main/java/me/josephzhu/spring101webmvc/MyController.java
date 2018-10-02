@@ -1,16 +1,16 @@
 package me.josephzhu.spring101webmvc;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
 public class MyController {
-    @RequestMapping("shop")
+
+    @GetMapping("shop")
     public ModelAndView shop() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("shop");

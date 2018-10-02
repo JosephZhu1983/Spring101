@@ -15,6 +15,13 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/hello").setViewName("helloworld");
+        registry.addRedirectViewController("/", "/hello");
+        registry.addStatusController("/user", HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
         configurer.setUseTrailingSlashMatch(false);
     }
@@ -32,13 +39,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverterFactory(new MyConverterFactory());
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/hello").setViewName("helloworld");
-        registry.addRedirectViewController("/", "/hello");
-        registry.addStatusController("/user", HttpStatus.BAD_REQUEST);
     }
 
     @Override

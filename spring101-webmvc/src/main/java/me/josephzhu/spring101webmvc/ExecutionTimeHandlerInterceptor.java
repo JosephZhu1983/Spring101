@@ -17,7 +17,11 @@ public class ExecutionTimeHandlerInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         long startTime = System.currentTimeMillis();
         request.setAttribute(START_TIME_ATTR_NAME, startTime);
-        return super.preHandle(request, response, handler);
+        return true;
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
     }
 
     @Override
@@ -33,7 +37,5 @@ public class ExecutionTimeHandlerInterceptor extends HandlerInterceptorAdapter {
         }
 
         log.debug(time);
-
-        super.postHandle(request, response, handler, modelAndView);
     }
 }
