@@ -24,11 +24,11 @@ public class MyController {
 
     @GetMapping("/data")
     public List<MyData> getData(@RequestParam(value = "size", defaultValue = "10") int size,@RequestParam(value = "length", defaultValue = "100") int length) {
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-
-        }
+//        try {
+//            Thread.sleep(100);
+//        } catch (InterruptedException e) {
+//
+//        }
         String payload = IntStream.rangeClosed(1,length).mapToObj(i->"a").collect(Collectors.joining());
         return IntStream.rangeClosed(1, size)
                 .mapToObj(i->new MyData(UUID.randomUUID().toString(), payload, System.currentTimeMillis()))
@@ -42,7 +42,7 @@ public class MyController {
 
     @GetMapping("/saveData")
     public List<MyData> saveData(@RequestParam(value = "size", defaultValue = "10") int size,@RequestParam(value = "length", defaultValue = "100") int length){
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://127.0.0.1:8080/data")
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("http://localhost:8080/data")
                 .queryParam("size", size)
                 .queryParam("length", length);
         ResponseEntity<List<MyData>> responseEntity =

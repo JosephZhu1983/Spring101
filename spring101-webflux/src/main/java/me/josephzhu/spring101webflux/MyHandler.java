@@ -27,7 +27,8 @@ public class MyHandler {
 
         String payload = IntStream.rangeClosed(1,length).mapToObj(i->"a").collect(Collectors.joining());
         Flux<MyData> data = Flux.fromStream(IntStream.rangeClosed(1, size)
-                .mapToObj(i->new MyData(UUID.randomUUID().toString(), payload, System.currentTimeMillis()))).delaySequence(Duration.ofMillis(100));
+                .mapToObj(i->new MyData(UUID.randomUUID().toString(), payload, System.currentTimeMillis())));
+//                .delaySequence(Duration.ofMillis(100));
 
         return ok()
                 .contentType(MediaType.APPLICATION_JSON)

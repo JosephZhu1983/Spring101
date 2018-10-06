@@ -24,7 +24,7 @@ public class Spring101WebfluxApplication {
     MongoClientSettings mongoClientSettings(){
         return MongoClientSettings.builder()
                 .clusterSettings(ClusterSettings.builder().applyConnectionString(new ConnectionString("mongodb://localhost")).build())
-                .connectionPoolSettings(ConnectionPoolSettings.builder().minSize(200).maxSize(1000).maxWaitQueueSize(1000000).build())
+                .connectionPoolSettings(ConnectionPoolSettings.builder().minSize(50).maxSize(1000).maxWaitQueueSize(1000000).build())
                 .build();
     }
 
