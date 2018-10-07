@@ -6,7 +6,7 @@
     <groupId>me.josephzhu</groupId>
     <artifactId>spring101</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>spring101</name>
     <description></description>
