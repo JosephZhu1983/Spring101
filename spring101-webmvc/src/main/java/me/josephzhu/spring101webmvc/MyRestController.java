@@ -18,7 +18,7 @@ public class MyRestController {
         log.debug("Device : " + device);
         List<MyItem> myItems = new ArrayList<>();
         myItems.add(new MyItem("aa", 10));
-        myItems.add(new MyItem("bb", 20));
+        myItems.add(new MyItem("cc", 20));
         return myItems;
     }
 
