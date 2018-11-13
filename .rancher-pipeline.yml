@@ -1,0 +1,10 @@
+stages:
+- name: compile
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: example/spring101
+      pushRemote: true
+      registry: index.docker.io
+timeout: 60
