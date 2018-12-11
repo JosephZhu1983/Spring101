@@ -1,4 +1,4 @@
-package me.josephzhu.spring101webmvc;
+package me.josephzhu.spring101webmvc.framework;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Sign {
-
+public @interface ActionFilters {
+    ActionFilter[] value();
 }
