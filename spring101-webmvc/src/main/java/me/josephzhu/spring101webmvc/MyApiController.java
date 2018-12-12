@@ -7,6 +7,7 @@ import me.josephzhu.spring101webmvc.framework.ApiFilter;
 import me.josephzhu.spring101webmvc.framework.ApiVersion;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
@@ -20,6 +21,11 @@ public class MyApiController {
     @GetMapping("hello")
     public String hello(@RequestParam("name")String name){
         return "hello " + name;
+    }
+
+    @PostMapping("item")
+    public MyItem setItem(MyItem myItem) {
+        return myItem;
     }
 
     @ApiFilter(value = TestApiFilter1.class, order = 100)
