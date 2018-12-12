@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-public abstract class AbstractActionFilter {
+public abstract class AbstractApiFilter {
     public void preAction(HttpServletRequest request, HttpServletResponse response) {}
     public void postAction(HttpServletRequest request, HttpServletResponse response) {}
 }

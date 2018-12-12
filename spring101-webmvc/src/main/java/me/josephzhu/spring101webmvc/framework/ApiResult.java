@@ -1,14 +1,16 @@
 package me.josephzhu.spring101webmvc.framework;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
+@Builder
 public class ApiResult<T> {
-    T data;
     boolean success;
     String code;
+    String error;
     String message;
     String path;
+    long time;
+    T data;
 }

@@ -7,18 +7,14 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import java.lang.reflect.Method;
 
-public class ApiVersionRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
-
-    private final String prefix;
-
-    public ApiVersionRequestMappingHandlerMapping(String prefix) {
-        this.prefix = prefix;
-    }
+public class ApiVersionHandlerMapping extends RequestMappingHandlerMapping {
 
     @Override
     protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
         RequestMappingInfo info = super.getMappingForMethod(method, handlerType);
-        if(info == null) return null;
+        if(info == null) {
+            return null;
+        }
 
         ApiVersion methodAnnotation = AnnotationUtils.findAnnotation(method, ApiVersion.class);
         if(methodAnnotation != null) {
@@ -36,12 +32,7 @@ public class ApiVersionRequestMappingHandlerMapping extends RequestMappingHandle
     }
 
     private RequestMappingInfo createApiVersionInfo(ApiVersion annotation, RequestCondition<?> customCondition) {
-        String[] values = annotation.value();
-        String[] patterns = new String[values.length];
-        for(int i=0; i<values.length; i++) {
-            patterns[i] = prefix+values[i];
-        }
-
+        String[] patterns = annotation.value();
         return new RequestMappingInfo(
                 new PatternsRequestCondition(patterns, getUrlPathHelper(), getPathMatcher(), useSuffixPatternMatch(), useTrailingSlashMatch(), getFileExtensions()),
                 new RequestMethodsRequestCondition(),

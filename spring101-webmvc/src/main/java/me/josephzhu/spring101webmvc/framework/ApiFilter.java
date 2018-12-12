@@ -4,9 +4,9 @@ import java.lang.annotation.*;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@Repeatable(ActionFilters.class)
-public @interface ActionFilter {
+@Repeatable(ApiFilters.class)
+public @interface ApiFilter {
     String name() default "";
     int order() default 0;
-    Class<? extends AbstractActionFilter> value();
+    Class<? extends AbstractApiFilter> value();
 }

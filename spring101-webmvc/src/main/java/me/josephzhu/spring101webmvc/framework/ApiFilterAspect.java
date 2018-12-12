@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Aspect
 @Component
-public class ActionFilterAspect {
+public class ApiFilterAspect {
 
     @Autowired
     ApplicationContext applicationContext;
@@ -28,21 +28,20 @@ public class ActionFilterAspect {
     @Around("@within(me.josephzhu.spring101webmvc.framework.ApiController)")
     public Object metrics(ProceedingJoinPoint pjp) throws Throwable {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
-        ActionFilter[] actionFilters = signature.getMethod().getAnnotationsByType(ActionFilter.class);
+        ApiFilter[] apiFilters = signature.getMethod().getAnnotationsByType(ApiFilter.class);
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
-        List<ActionFilter> filters = new ArrayList<>();
-        if (actionFilters.length>0) {
-            for (ActionFilter actionFilter : actionFilters) {
-                filters.add(actionFilter);
+        List<ApiFilter> filters = new ArrayList<>();
+        if (apiFilters.length>0) {
+            for (ApiFilter apiFilter : apiFilters) {
+                filters.add(apiFilter);
             }
         }
-        filters.sort(Comparator.comparing(ActionFilter::order));
-        List<AbstractActionFilter> filterInstances = filters
+        filters.sort(Comparator.comparing(ApiFilter::order));
+        List<AbstractApiFilter> filterInstances = filters
                 .stream()
                 .map(filter -> applicationContext.getBean(filter.value()))
                 .collect(Collectors.toList());
-
         filterInstances.forEach(filter->filter.preAction(request,response));
         try {
             return pjp.proceed();
