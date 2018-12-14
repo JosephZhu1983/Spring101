@@ -15,7 +15,7 @@ import java.util.List;
 
 @ApiController
 @Slf4j
-@ApiVersion("")
+@ApiVersion("v1")
 public class MyApiController {
 
     @GetMapping("hello")
@@ -31,13 +31,15 @@ public class MyApiController {
     @ApiFilter(value = TestApiFilter1.class, order = 100)
     @ApiFilter(TestApiFilter2.class)
     @GetMapping("items")
-    public List<MyItem> getItems() {
+    public List<MyItem> getItems() throws InterruptedException {
+        Thread.sleep(1000);
         List<MyItem> myItems = new ArrayList<>();
         myItems.add(new MyItem("aa", 10));
         myItems.add(new MyItem("cc", 20));
         return myItems;
     }
 
+    @ApiFilter(value = TestApiFilter1.class, order = 100)
     @ApiFilter(TestApiFilter2.class)
     @GetMapping("item/{id}")
     public MyItem getItem(@PathVariable("id") String id) {

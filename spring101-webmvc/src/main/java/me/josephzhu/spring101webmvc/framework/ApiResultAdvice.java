@@ -1,6 +1,8 @@
 package me.josephzhu.spring101webmvc.framework;
 
 import org.springframework.core.MethodParameter;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class ApiResultAdvice implements ResponseBodyAdvice {
 
     @Override

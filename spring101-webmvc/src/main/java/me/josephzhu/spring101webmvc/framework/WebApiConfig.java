@@ -7,6 +7,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
@@ -20,11 +21,15 @@ public class WebApiConfig extends WebMvcConfigurationSupport {
 
     @Autowired
     List<HttpMessageConverter<?>> httpMessageConverters;
+    @Autowired
+    ApiFilterInterceptor apiFilterInterceptor;
 
     @Override
     @Bean
     public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-        return new ApiVersionHandlerMapping();
+        RequestMappingHandlerMapping requestMappingHandlerMapping = new ApiVersionHandlerMapping();
+        requestMappingHandlerMapping.setInterceptors(getInterceptors());
+        return requestMappingHandlerMapping;
     }
 
     @Override
@@ -34,17 +39,26 @@ public class WebApiConfig extends WebMvcConfigurationSupport {
     }
 
     @Override
+    protected void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(apiFilterInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/favicon.ico");
+    }
+
+    @Override
     @Bean
     public RequestMappingHandlerAdapter requestMappingHandlerAdapter() {
         RequestMappingHandlerAdapter requestMappingHandlerAdapter = super.requestMappingHandlerAdapter();
+
         List<HandlerMethodArgumentResolver> argumentResolvers = new ArrayList<>();
         argumentResolvers.add(new AutoRequestBodyProcessor(httpMessageConverters));
         requestMappingHandlerAdapter.setCustomArgumentResolvers(argumentResolvers);
+
         List<HandlerMethodReturnValueHandler> returnValueHandlers = new ArrayList<>();
         returnValueHandlers.add(new AutoRequestBodyProcessor(httpMessageConverters));
         requestMappingHandlerAdapter.setCustomReturnValueHandlers(returnValueHandlers);
-        return requestMappingHandlerAdapter;
 
+        return requestMappingHandlerAdapter;
     }
 
     @Override
