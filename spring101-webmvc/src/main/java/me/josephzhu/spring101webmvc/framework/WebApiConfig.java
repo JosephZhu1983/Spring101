@@ -7,6 +7,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-public class WebConfig extends WebMvcConfigurationSupport {
+public class WebApiConfig extends WebMvcConfigurationSupport {
 
     @Autowired
     List<HttpMessageConverter<?>> httpMessageConverters;
@@ -44,6 +45,17 @@ public class WebConfig extends WebMvcConfigurationSupport {
         requestMappingHandlerAdapter.setCustomReturnValueHandlers(returnValueHandlers);
         return requestMappingHandlerAdapter;
 
+    }
+
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        super.addResourceHandlers(registry);
+
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }
 

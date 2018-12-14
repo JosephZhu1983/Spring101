@@ -15,7 +15,7 @@ import java.util.List;
 
 @ApiController
 @Slf4j
-@ApiVersion("v1")
+@ApiVersion("")
 public class MyApiController {
 
     @GetMapping("hello")
