@@ -12,7 +12,7 @@ public class LoginCheck extends AbstractApiFilter {
 
     @Override
     public boolean preAction(HttpServletRequest request, HttpServletResponse response, Method method) {
-        if (request.getParameter("token") == null || !request.getParameter("token").equals("1"))
+        if (request.getHeader("token") == null || !request.getHeader("token").equals("1"))
             throw new RuntimeException("请登录！");
         return true;
     }
