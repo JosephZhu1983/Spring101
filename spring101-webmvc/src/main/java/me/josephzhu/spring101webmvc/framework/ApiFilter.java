@@ -2,7 +2,7 @@ package me.josephzhu.spring101webmvc.framework;
 
 import java.lang.annotation.*;
 
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Repeatable(ApiFilters.class)
 public @interface ApiFilter {

@@ -11,13 +11,22 @@ import java.util.stream.Collectors;
 public class ApiFilterUtil {
 
     public static List<AbstractApiFilter> getFilters(ApplicationContext applicationContext, Method method, boolean reversed) {
-        ApiFilter[] apiFilters = method.getAnnotationsByType(ApiFilter.class);
         List<ApiFilter> filters = new ArrayList<>();
-        if (apiFilters.length>0) {
-            for (ApiFilter apiFilter : apiFilters) {
+
+        ApiFilter[] apiFiltersOnMethod = method.getAnnotationsByType(ApiFilter.class);
+        if (apiFiltersOnMethod.length>0) {
+            for (ApiFilter apiFilter : apiFiltersOnMethod) {
                 filters.add(apiFilter);
             }
         }
+
+        ApiFilter[] apiFiltersOnClass = method.getDeclaringClass().getAnnotationsByType(ApiFilter.class);
+        if (apiFiltersOnClass.length>0) {
+            for (ApiFilter apiFilter : apiFiltersOnClass) {
+                filters.add(apiFilter);
+            }
+        }
+
         Comparator comparator = Comparator.comparing(ApiFilter::order);
         if (reversed)
             comparator = comparator.reversed();

@@ -16,6 +16,7 @@ import java.util.List;
 @ApiController
 @Slf4j
 @ApiVersion("v1")
+@ApiFilter(LoginCheck.class)
 public class MyApiController {
 
     @GetMapping("hello")
