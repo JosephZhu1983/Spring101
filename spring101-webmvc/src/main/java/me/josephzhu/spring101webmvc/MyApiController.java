@@ -1,5 +1,6 @@
 package me.josephzhu.spring101webmvc;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import me.josephzhu.spring101webmvc.framework.ApiController;
 import me.josephzhu.spring101webmvc.framework.ApiException;
@@ -20,11 +21,13 @@ import java.util.List;
 public class MyApiController {
 
     @GetMapping("hello")
+    @ApiOperation("用来测试可以返回字符串")
     public String hello(@RequestParam("name")String name){
         return "hello " + name;
     }
 
     @PostMapping("item")
+    @ApiOperation("用来测试自动的RequestBody")
     public MyItem setItem(MyItem myItem) {
         return myItem;
     }
@@ -32,6 +35,7 @@ public class MyApiController {
     @ApiFilter(value = TestApiFilter1.class, order = 100)
     @ApiFilter(TestApiFilter2.class)
     @GetMapping("items")
+    @ApiOperation("用来测试Filter")
     public List<MyItem> getItems() throws InterruptedException {
         Thread.sleep(1000);
         List<MyItem> myItems = new ArrayList<>();
@@ -43,6 +47,7 @@ public class MyApiController {
     @ApiFilter(value = TestApiFilter1.class, order = 100)
     @ApiFilter(TestApiFilter2.class)
     @GetMapping("item/{id}")
+    @ApiOperation("用来测试Filter中修改返回内容")
     public MyItem getItem(@PathVariable("id") String id) {
         return new MyItem("item" + id, 20);
     }
@@ -50,6 +55,7 @@ public class MyApiController {
     @ApiFilter(TestApiFilter2.class)
     @GetMapping("item/{id}")
     @ApiVersion({"v2","v3"})
+    @ApiOperation("用了测试版本")
     public MyItem getItemv2(@PathVariable("id") String id) {
         Integer i = null;
         try {
