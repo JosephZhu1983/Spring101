@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class ApiFilterUtil {
 
     public static List<AbstractApiFilter> getFilters(ApplicationContext applicationContext, Method method, boolean reversed) {
+
         List<ApiFilter> filters = new ArrayList<>();
 
         ApiFilter[] apiFiltersOnClass = method.getDeclaringClass().getAnnotationsByType(ApiFilter.class);

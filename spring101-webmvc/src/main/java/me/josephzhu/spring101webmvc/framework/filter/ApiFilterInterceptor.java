@@ -1,6 +1,7 @@
 package me.josephzhu.spring101webmvc.framework.filter;
 
 import lombok.extern.slf4j.Slf4j;
+import me.josephzhu.spring101webmvc.framework.ApiController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -25,8 +26,10 @@ public class ApiFilterInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         if(handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
-            for (AbstractApiFilter filterInstance : ApiFilterUtil.getFilters(applicationContext, handlerMethod.getMethod(), true)) {
-                filterInstance.postActionHandler(request, response, handlerMethod.getMethod());
+            if (handlerMethod.getMethod().getDeclaringClass().getAnnotationsByType(ApiController.class)!= null) {
+                for (AbstractApiFilter filterInstance : ApiFilterUtil.getFilters(applicationContext, handlerMethod.getMethod(), true)) {
+                    filterInstance.postActionHandler(request, response, handlerMethod.getMethod());
+                }
             }
         }
     }
@@ -35,9 +38,11 @@ public class ApiFilterInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if(handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
-            for (AbstractApiFilter filterInstance : ApiFilterUtil.getFilters(applicationContext, handlerMethod.getMethod(), false)) {
-                if (!filterInstance.preActionHandler(request, response, handlerMethod.getMethod()))
-                    return false;
+            if (handlerMethod.getMethod().getDeclaringClass().getAnnotationsByType(ApiController.class)!= null) {
+                for (AbstractApiFilter filterInstance : ApiFilterUtil.getFilters(applicationContext, handlerMethod.getMethod(), false)) {
+                    if (!filterInstance.preActionHandler(request, response, handlerMethod.getMethod()))
+                        return false;
+                }
             }
         }
 

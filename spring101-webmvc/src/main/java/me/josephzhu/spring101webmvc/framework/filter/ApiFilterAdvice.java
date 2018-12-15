@@ -1,5 +1,6 @@
 package me.josephzhu.spring101webmvc.framework.filter;
 
+import me.josephzhu.spring101webmvc.framework.ApiController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.MethodParameter;
@@ -24,7 +25,8 @@ public class ApiFilterAdvice implements ResponseBodyAdvice {
 
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
-        return returnType.getMethod().getAnnotationsByType(ApiFilter.class).length>0;
+        return returnType.getDeclaringClass().getAnnotationsByType(ApiController.class) != null &&
+                returnType.getMethod().getAnnotationsByType(ApiFilter.class).length>0;
     }
 
     @Override
