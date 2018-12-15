@@ -11,6 +11,11 @@ import java.lang.reflect.Method;
 public class LoginCheck extends AbstractApiFilter {
 
     @Override
+    protected String getDescription() {
+        return "校验Token";
+    }
+
+    @Override
     public boolean preAction(HttpServletRequest request, HttpServletResponse response, Method method) {
         if (request.getHeader("token") == null || !request.getHeader("token").equals("1"))
             throw new RuntimeException("请登录！");

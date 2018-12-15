@@ -10,7 +10,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Repeatable(ApiFilters.class)
 public @interface ApiFilter {
-    String name() default "";
     int order() default 0;
     Class<? extends AbstractApiFilter> value();
 }

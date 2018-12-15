@@ -14,7 +14,7 @@ import java.util.Arrays;
 @Slf4j
 public abstract class AbstractApiFilter {
 
-    public boolean preActionHandler(HttpServletRequest request, HttpServletResponse response, Method method) {
+    public final boolean preActionHandler(HttpServletRequest request, HttpServletResponse response, Method method) {
         long begin = System.currentTimeMillis();
         boolean c = false;
         try {
@@ -22,9 +22,10 @@ public abstract class AbstractApiFilter {
         } finally {
             try {
                 if (Arrays.asList(getClass().getDeclaredMethods()).stream().filter(m->m.getName().equals("preAction")).findAny().isPresent())
-                    log.info(String.format("Took [%s] to execute filter [%s] phase [%s] on %s (method:[%s]) => %s",
+                    log.info(String.format("Took [%s] to execute filter [%s:%s] phase [%s] on %s (method:[%s]) => %s",
                             (System.currentTimeMillis() - begin) + "ms",
                             this.getClass().toString(),
+                            getDescription(),
                             "preAction",
                             request.getRequestURI(),
                             method.toGenericString(),
@@ -35,35 +36,38 @@ public abstract class AbstractApiFilter {
 
     }
 
-    public Object beforeReturnHandler(HttpServletRequest request, HttpServletResponse response, Method method, Object object) {
+    public final Object beforeReturnHandler(HttpServletRequest request, HttpServletResponse response, Method method, Object object) {
         long begin = System.currentTimeMillis();
         Object o = beforeReturn(request, response, method, object);
         try {
             if (Arrays.asList(getClass().getDeclaredMethods()).stream().filter(m->m.getName().equals("beforeReturn")).findAny().isPresent())
-                log.info(String.format("Took [%s] to execute filter [%s] phase [%s] on %s (method:[%s])",
-                        (System.currentTimeMillis() - begin) + "ms",
-                        this.getClass().toString(),
-                        "beforeReturn",
-                        request.getRequestURI(),
-                        method.toGenericString()));
+                log.info(String.format("Took [%s] to execute filter [%s:%s] phase [%s] on %s (method:[%s])",
+                            (System.currentTimeMillis() - begin) + "ms",
+                            this.getClass().toString(),
+                            getDescription(),
+                            "beforeReturn",
+                            request.getRequestURI(),
+                            method.toGenericString()));
         } catch (Exception ex) {}
         return o;
     }
 
-    public void postActionHandler(HttpServletRequest request, HttpServletResponse response, Method method) {
+    public final void postActionHandler(HttpServletRequest request, HttpServletResponse response, Method method) {
         long begin = System.currentTimeMillis();
         postAction(request, response, method);
         try {
             if (Arrays.asList(getClass().getDeclaredMethods()).stream().filter(m->m.getName().equals("postAction")).findAny().isPresent())
-                log.info(String.format("Took [%s] to execute filter [%s] phase [%s] on %s (method:[%s])",
-                    (System.currentTimeMillis() - begin) + "ms",
-                    this.getClass().toString(),
-                    "postAction",
-                    request.getRequestURI(),
-                    method.toGenericString()));
+                log.info(String.format("Took [%s] to execute filter [%s:%s] phase [%s] on %s (method:[%s])",
+                        (System.currentTimeMillis() - begin) + "ms",
+                        this.getClass().toString(),
+                        getDescription(),
+                        "postAction",
+                        request.getRequestURI(),
+                        method.toGenericString()));
         } catch (Exception ex) {}
     }
 
+    protected abstract String getDescription();
     protected boolean preAction(HttpServletRequest request, HttpServletResponse response, Method method) { return true; }
     protected Object beforeReturn(HttpServletRequest request, HttpServletResponse response, Method method, Object object) {return object;}
     protected void postAction(HttpServletRequest request, HttpServletResponse response, Method method) {}

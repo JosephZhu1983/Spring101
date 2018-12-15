@@ -49,7 +49,7 @@ public class ApiExceptionAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ApiResult handleMethodArgumentNotValidException(HttpServletRequest request, MethodArgumentNotValidException ex) {
-        String message = "Validing request parameter failed (" + ex.getBindingResult()
+        String message = "Validating request parameter failed (" + ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(fieldError -> String.format("Field：%s Value：%s Reason：%s", fieldError.getField(), fieldError.getRejectedValue(), fieldError.getDefaultMessage()))

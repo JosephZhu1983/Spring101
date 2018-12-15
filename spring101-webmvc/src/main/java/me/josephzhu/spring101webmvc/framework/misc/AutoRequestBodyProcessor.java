@@ -1,4 +1,4 @@
-package me.josephzhu.spring101webmvc.framework.pojo;
+package me.josephzhu.spring101webmvc.framework.misc;
 
 import me.josephzhu.spring101webmvc.framework.ApiController;
 import org.springframework.core.MethodParameter;

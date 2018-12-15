@@ -12,6 +12,11 @@ import java.lang.reflect.Method;
 @Slf4j
 public class TestApiFilter2 extends AbstractApiFilter {
     @Override
+    protected String getDescription() {
+        return "测试1";
+    }
+
+    @Override
     public Object beforeReturn(HttpServletRequest request, HttpServletResponse response, Method method, Object object) {
         if (object instanceof MyItem) {
             MyItem myItem = (MyItem) object;

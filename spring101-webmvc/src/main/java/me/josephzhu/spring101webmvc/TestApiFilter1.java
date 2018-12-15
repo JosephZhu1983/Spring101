@@ -16,6 +16,11 @@ public class TestApiFilter1 extends AbstractApiFilter {
     }
 
     @Override
+    protected String getDescription() {
+        return "测试2";
+    }
+
+    @Override
     public Object beforeReturn(HttpServletRequest request, HttpServletResponse response, Method method, Object object) {
         if (object instanceof MyItem) {
             MyItem myItem = (MyItem) object;

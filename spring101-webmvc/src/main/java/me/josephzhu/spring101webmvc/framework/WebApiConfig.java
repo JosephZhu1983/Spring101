@@ -1,7 +1,7 @@
 package me.josephzhu.spring101webmvc.framework;
 
 import me.josephzhu.spring101webmvc.framework.filter.ApiFilterInterceptor;
-import me.josephzhu.spring101webmvc.framework.pojo.AutoRequestBodyProcessor;
+import me.josephzhu.spring101webmvc.framework.misc.AutoRequestBodyProcessor;
 import me.josephzhu.spring101webmvc.framework.version.ApiVersionHandlerMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
