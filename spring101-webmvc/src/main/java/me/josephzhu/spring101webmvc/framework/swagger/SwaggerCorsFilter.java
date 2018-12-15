@@ -1,4 +1,4 @@
-package me.josephzhu.spring101webmvc.framework;
+package me.josephzhu.spring101webmvc.framework.swagger;
 
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;

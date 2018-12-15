@@ -1,4 +1,4 @@
-package me.josephzhu.spring101webmvc.framework;
+package me.josephzhu.spring101webmvc.framework.filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

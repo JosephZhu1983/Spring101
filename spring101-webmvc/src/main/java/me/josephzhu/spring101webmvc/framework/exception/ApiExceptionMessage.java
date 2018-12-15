@@ -1,4 +1,4 @@
-package me.josephzhu.spring101webmvc.framework;
+package me.josephzhu.spring101webmvc.framework.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

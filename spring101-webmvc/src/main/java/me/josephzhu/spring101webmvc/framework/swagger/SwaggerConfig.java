@@ -1,4 +1,4 @@
-package me.josephzhu.spring101webmvc.framework;
+package me.josephzhu.spring101webmvc.framework.swagger;
 
 import com.google.common.base.Predicates;
 import org.springframework.beans.factory.annotation.Autowired;

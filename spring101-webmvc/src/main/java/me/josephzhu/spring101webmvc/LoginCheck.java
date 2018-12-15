@@ -1,6 +1,6 @@
 package me.josephzhu.spring101webmvc;
 
-import me.josephzhu.spring101webmvc.framework.AbstractApiFilter;
+import me.josephzhu.spring101webmvc.framework.filter.AbstractApiFilter;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;

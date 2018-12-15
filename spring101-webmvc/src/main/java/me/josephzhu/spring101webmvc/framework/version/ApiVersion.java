@@ -1,4 +1,4 @@
-package me.josephzhu.spring101webmvc.framework;
+package me.josephzhu.spring101webmvc.framework.version;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
  * @author zhuye
  * @date 2018/12/14
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ApiFilters {
-    ApiFilter[] value();
+public @interface ApiVersion {
+    String[] value();
 }

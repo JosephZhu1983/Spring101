@@ -1,4 +1,4 @@
-package me.josephzhu.spring101webmvc.framework;
+package me.josephzhu.spring101webmvc.framework.result;
 
 import lombok.Builder;
 import lombok.Data;
