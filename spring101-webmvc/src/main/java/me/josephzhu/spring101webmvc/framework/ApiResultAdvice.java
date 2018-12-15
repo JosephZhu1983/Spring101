@@ -1,8 +1,7 @@
 package me.josephzhu.spring101webmvc.framework;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
@@ -14,10 +13,15 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
+/**
+ * @author zhuye
+ * @date 2018/12/14
+ */
+@Slf4j
 @RestControllerAdvice
-@Order(Ordered.LOWEST_PRECEDENCE)
 public class ApiResultAdvice implements ResponseBodyAdvice {
 
     @Override
@@ -40,6 +44,7 @@ public class ApiResultAdvice implements ResponseBodyAdvice {
 
     @ExceptionHandler(Exception.class)
     public ApiResult handleException(HttpServletRequest request, Exception ex) {
+        logException(request,ex);
         return ApiResult.builder()
                 .time(System.currentTimeMillis())
                 .success(false)
@@ -53,6 +58,7 @@ public class ApiResultAdvice implements ResponseBodyAdvice {
 
     @ExceptionHandler(NoHandlerFoundException.class)
     public ApiResult handleNoHandlerFoundException(HttpServletRequest request, Exception ex) {
+        logException(request,ex);
         return ApiResult.builder()
                 .time(System.currentTimeMillis())
                 .success(false)
@@ -66,12 +72,12 @@ public class ApiResultAdvice implements ResponseBodyAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ApiResult handleMethodArgumentNotValidException(HttpServletRequest request, MethodArgumentNotValidException ex) {
-        String message = "请求参数校验失败 (" + ex.getBindingResult()
+        String message = "Validing request parameter failed (" + ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(fieldError -> String.format("字段：%s 值：%s 原因：%s", fieldError.getField(), fieldError.getRejectedValue(), fieldError.getDefaultMessage()))
+                .map(fieldError -> String.format("Field：%s Value：%s Reason：%s", fieldError.getField(), fieldError.getRejectedValue(), fieldError.getDefaultMessage()))
                 .collect(Collectors.joining( "; " )) + ")";
-
+        logException(request,ex);
         return ApiResult.builder()
                 .time(System.currentTimeMillis())
                 .success(false)
@@ -85,6 +91,7 @@ public class ApiResultAdvice implements ResponseBodyAdvice {
 
     @ExceptionHandler(ApiException.class)
     public ApiResult handleApiException(HttpServletRequest request, ApiException ex) {
+        logException(request,ex);
         return ApiResult.builder()
                 .time(System.currentTimeMillis())
                 .success(false)
@@ -94,5 +101,15 @@ public class ApiResultAdvice implements ResponseBodyAdvice {
                 .message(ex.getErrorMessage())
                 .path(request.getRequestURI())
                 .build();
+    }
+
+    private void logException(HttpServletRequest request, Exception ex) {
+        ApiExceptionMessage apiExceptionMessage = ApiExceptionMessage.builder()
+                .headers(Collections.list(request.getHeaderNames()).stream().collect(Collectors.toMap(h -> h, request::getHeader)))
+                .exception(ex.getMessage())
+                .url(request.getRequestURL().toString())
+                .build();
+        log.error("Executing Api occurs error, see below information: ", apiExceptionMessage.toString(), ex);
+
     }
 }

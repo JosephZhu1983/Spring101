@@ -19,6 +19,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 
+/**
+ * @author zhuye
+ * @date 2018/12/14
+ */
 @EnableSwagger2
 @Configuration
 @Profile("!PROD && !prod")

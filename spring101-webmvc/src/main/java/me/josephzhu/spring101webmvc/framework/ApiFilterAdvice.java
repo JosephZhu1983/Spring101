@@ -13,6 +13,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import java.util.List;
 
+/**
+ * @author zhuye
+ * @date 2018/12/14
+ */
 @ControllerAdvice
 public class ApiFilterAdvice implements ResponseBodyAdvice {
     @Autowired
@@ -27,7 +31,7 @@ public class ApiFilterAdvice implements ResponseBodyAdvice {
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         List<AbstractApiFilter> filterInstances = ApiFilterUtil.getFilters(applicationContext, returnType.getMethod(), false);
         for (AbstractApiFilter filterInstance : filterInstances) {
-            body = filterInstance.beforeReturn(((ServletServerHttpRequest) request).getServletRequest(),
+            body = filterInstance.beforeReturnHandler(((ServletServerHttpRequest) request).getServletRequest(),
                     ((ServletServerHttpResponse) response).getServletResponse(), returnType.getMethod(), body);
         }
         return body;

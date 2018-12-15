@@ -11,6 +11,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author zhuye
+ * @date 2018/12/14
+ */
 @Component
 @Slf4j
 public class ApiFilterInterceptor implements HandlerInterceptor {
@@ -22,7 +26,7 @@ public class ApiFilterInterceptor implements HandlerInterceptor {
         if(handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             for (AbstractApiFilter filterInstance : ApiFilterUtil.getFilters(applicationContext, handlerMethod.getMethod(), true)) {
-                filterInstance.postAction(request, response, handlerMethod.getMethod());
+                filterInstance.postActionHandler(request, response, handlerMethod.getMethod());
             }
         }
     }
@@ -32,7 +36,7 @@ public class ApiFilterInterceptor implements HandlerInterceptor {
         if(handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             for (AbstractApiFilter filterInstance : ApiFilterUtil.getFilters(applicationContext, handlerMethod.getMethod(), false)) {
-                if (!filterInstance.preAction(request, response, handlerMethod.getMethod()))
+                if (!filterInstance.preActionHandler(request, response, handlerMethod.getMethod()))
                     return false;
             }
         }

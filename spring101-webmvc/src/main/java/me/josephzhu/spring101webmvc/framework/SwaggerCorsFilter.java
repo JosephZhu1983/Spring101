@@ -4,6 +4,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+/**
+ * @author zhuye
+ * @date 2018/12/14
+ */
 public class SwaggerCorsFilter extends CorsFilter {
 
     public SwaggerCorsFilter() {

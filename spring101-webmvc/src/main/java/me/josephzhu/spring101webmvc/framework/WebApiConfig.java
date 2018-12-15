@@ -16,6 +16,10 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author zhuye
+ * @date 2018/12/14
+ */
 @Configuration
 public class WebApiConfig extends WebMvcConfigurationSupport {
 

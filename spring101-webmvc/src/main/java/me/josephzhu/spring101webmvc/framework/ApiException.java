@@ -1,5 +1,9 @@
 package me.josephzhu.spring101webmvc.framework;
 
+/**
+ * @author zhuye
+ * @date 2018/12/14
+ */
 public class ApiException extends RuntimeException {
     private String errorCode;
     private String errorMessage;

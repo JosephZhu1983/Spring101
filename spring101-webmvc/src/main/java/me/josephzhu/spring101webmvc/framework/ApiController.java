@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.lang.annotation.*;
 
+/**
+ * @author zhuye
+ * @date 2018/12/14
+ */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

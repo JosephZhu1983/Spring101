@@ -8,6 +8,10 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import java.lang.reflect.Method;
 
+/**
+ * @author zhuye
+ * @date 2018/12/14
+ */
 public class ApiVersionHandlerMapping extends RequestMappingHandlerMapping {
 
     @Override
@@ -16,7 +20,7 @@ public class ApiVersionHandlerMapping extends RequestMappingHandlerMapping {
 
         if (AnnotatedElementUtils.hasAnnotation(method.getDeclaringClass(), ApiController.class)) {
             if (!AnnotatedElementUtils.hasAnnotation(method.getDeclaringClass(), ApiVersion.class))
-                throw new RuntimeException("@ApiController类上必须标注@ApiVersion注解来设定基准版本号");
+                throw new RuntimeException("@ApiController class must use @ApiVersion to specify base api version!");
 
             ApiVersion methodAnnotation = AnnotationUtils.findAnnotation(method, ApiVersion.class);
             if (methodAnnotation != null) {

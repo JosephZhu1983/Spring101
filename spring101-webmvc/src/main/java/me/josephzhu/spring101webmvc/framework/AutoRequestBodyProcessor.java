@@ -12,6 +12,10 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBody
 import java.lang.annotation.Annotation;
 import java.util.List;
 
+/**
+ * @author zhuye
+ * @date 2018/12/14
+ */
 public class AutoRequestBodyProcessor extends RequestResponseBodyMethodProcessor {
     public AutoRequestBodyProcessor(List<HttpMessageConverter<?>> converters) {
         super(converters);
