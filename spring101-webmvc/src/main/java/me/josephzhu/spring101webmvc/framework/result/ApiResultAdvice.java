@@ -13,12 +13,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @author zhuye
  * @date 2018/12/14
  */
-@ControllerAdvice
+@ControllerAdvice(annotations = ApiController.class)
 public class ApiResultAdvice implements ResponseBodyAdvice {
 
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
-        return returnType.getDeclaringClass().isAnnotationPresent(ApiController.class);
+        return true;
     }
 
     @Override

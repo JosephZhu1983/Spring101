@@ -26,7 +26,7 @@ public class ApiFilterInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         if(handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
-            if (handlerMethod.getMethod().getDeclaringClass().getAnnotationsByType(ApiController.class)!= null) {
+            if (handlerMethod.getMethod().getDeclaringClass().getAnnotationsByType(ApiController.class).length > 0) {
                 for (AbstractApiFilter filterInstance : ApiFilterUtil.getFilters(applicationContext, handlerMethod.getMethod(), true)) {
                     filterInstance.postActionHandler(request, response, handlerMethod.getMethod());
                 }
@@ -38,7 +38,7 @@ public class ApiFilterInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if(handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
-            if (handlerMethod.getMethod().getDeclaringClass().getAnnotationsByType(ApiController.class)!= null) {
+            if (handlerMethod.getMethod().getDeclaringClass().getAnnotationsByType(ApiController.class).length > 0) {
                 for (AbstractApiFilter filterInstance : ApiFilterUtil.getFilters(applicationContext, handlerMethod.getMethod(), false)) {
                     if (!filterInstance.preActionHandler(request, response, handlerMethod.getMethod()))
                         return false;

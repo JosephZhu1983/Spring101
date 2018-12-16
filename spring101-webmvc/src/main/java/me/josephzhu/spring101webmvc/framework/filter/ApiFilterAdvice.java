@@ -25,7 +25,7 @@ public class ApiFilterAdvice implements ResponseBodyAdvice {
 
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
-        return returnType.getDeclaringClass().getAnnotationsByType(ApiController.class) != null &&
+        return returnType.getDeclaringClass().getAnnotationsByType(ApiController.class).length > 0 &&
                 returnType.getMethod().getAnnotationsByType(ApiFilter.class).length>0;
     }
 
