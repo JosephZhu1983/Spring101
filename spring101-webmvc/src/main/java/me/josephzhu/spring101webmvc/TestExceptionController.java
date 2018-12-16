@@ -3,7 +3,6 @@ package me.josephzhu.spring101webmvc;
 import io.swagger.annotations.ApiOperation;
 import me.josephzhu.spring101webmvc.framework.ApiController;
 import me.josephzhu.spring101webmvc.framework.exception.ApiException;
-import me.josephzhu.spring101webmvc.framework.version.ApiVersion;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @ApiController
 @RequestMapping("exception")
-@ApiVersion("")
 public class TestExceptionController {
     @GetMapping("item/{id}")
     @ApiOperation("测试异常")

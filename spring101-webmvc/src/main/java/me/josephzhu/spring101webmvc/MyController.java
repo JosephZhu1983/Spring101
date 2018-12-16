@@ -4,12 +4,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import me.josephzhu.spring101webmvc.framework.exception.ApiException;
 import me.josephzhu.spring101webmvc.framework.filter.ApiFilter;
-import me.josephzhu.spring101webmvc.framework.version.ApiVersion;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@ApiVersion("v1")
 @ApiFilter(LoginCheck.class)
 @RequestMapping("rest")
 public class MyController {

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TestHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        log.info("TestHandlerInterceptor");
+        log.info("TestHandlerInterceptor" + request.getRequestURI());
         return true;
     }
 }

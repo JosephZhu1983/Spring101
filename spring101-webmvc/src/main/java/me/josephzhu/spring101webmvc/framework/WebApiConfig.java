@@ -2,7 +2,6 @@ package me.josephzhu.spring101webmvc.framework;
 
 import me.josephzhu.spring101webmvc.framework.filter.ApiFilterInterceptor;
 import me.josephzhu.spring101webmvc.framework.misc.AutoRequestBodyProcessor;
-import me.josephzhu.spring101webmvc.framework.version.ApiVersionHandlerMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +28,6 @@ public class WebApiConfig extends WebMvcConfigurationSupport {
     List<HttpMessageConverter<?>> httpMessageConverters;
     @Autowired
     ApiFilterInterceptor apiFilterInterceptor;
-
-    @Override
-    @Bean
-    public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-        RequestMappingHandlerMapping requestMappingHandlerMapping = new ApiVersionHandlerMapping();
-        requestMappingHandlerMapping.setInterceptors(getInterceptors());
-        return requestMappingHandlerMapping;
-    }
 
     @Override
     protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
