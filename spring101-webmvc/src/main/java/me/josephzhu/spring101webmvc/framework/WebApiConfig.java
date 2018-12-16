@@ -32,11 +32,8 @@ public class WebApiConfig extends WebMvcConfigurationSupport {
     ApiFilterInterceptor apiFilterInterceptor;
 
     @Override
-    @Bean
-    public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-        RequestMappingHandlerMapping requestMappingHandlerMapping = new ApiVersionHandlerMapping();
-        requestMappingHandlerMapping.setInterceptors(getInterceptors());
-        return requestMappingHandlerMapping;
+    public RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
+        return new ApiVersionHandlerMapping();
     }
 
     @Override
