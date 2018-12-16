@@ -24,8 +24,6 @@ public class Spring101WebmvcApplicationTests {
         webTestClient.post().uri("/exception/item").syncBody(new MyItem("a", 1)).exchange().expectStatus().isOk().expectBody().json("{'code':'422','error':'Unprocessable Entity'}");
         webTestClient.post().uri("/exception/item").syncBody(new MyItem("a", 10)).exchange().expectStatus().isOk().expectBody().json("{'code':'422','error':'Unprocessable Entity'}");
         webTestClient.post().uri("/exception/item").syncBody(new MyItem("aa", 10)).exchange().expectStatus().isOk().expectBody().json("{'code':'200'}");
-        webTestClient.post().uri("/exception/itema").syncBody(new MyItem("aa", 10)).exchange().expectStatus().isOk().expectBody().json("{'code':'404'}");
-
     }
 
 
@@ -36,7 +34,6 @@ public class Spring101WebmvcApplicationTests {
         webTestClient.get().uri("/filter/item1").header("token", "1").exchange().expectStatus().isOk().expectBody().json("{'data':{'name':'aatestfilter3testfilter2testfilter1','price':10}}");
         webTestClient.get().uri("/filter/item2").header("token", "1").exchange().expectStatus().isOk().expectBody().json("{'data':{'name':'aatestfilter3testfilter1testfilter2','price':10}}");
         webTestClient.get().uri("/filter/item3").header("token", "1").exchange().expectStatus().isOk().expectBody().json("{'data':{'name':'aa','price':10}}");
-
     }
 
     @Test
@@ -44,7 +41,16 @@ public class Spring101WebmvcApplicationTests {
         webTestClient.get().uri("/result/test1").exchange().expectStatus().isOk().expectBody().json("{'data':false}");
         webTestClient.get().uri("/result/test2").exchange().expectStatus().isOk().expectBody().json("{'data':0.2}");
         webTestClient.get().uri("/result/test3").exchange().expectStatus().isOk().expectBody().json("{'data':{'name':'aa','price':10}}");
-        webTestClient.get().uri("/result/test4").exchange().expectStatus().isOk().expectBody().json("{'success': true,'code':'200','error':'','message':'OK','path':'/result/test4','data': null}");
+        webTestClient.get().uri("/result/test1").exchange().expectStatus().isOk().expectBody()
+                .jsonPath("$.success").exists()
+                .jsonPath("$.error").exists()
+                .jsonPath("$.code").exists()
+                .jsonPath("$.path").exists()
+                .jsonPath("$.message").exists()
+                .jsonPath("$.data").exists()
+                .jsonPath("$.time").exists();
+        webTestClient.get().uri("/result/test4").exchange().expectStatus().isOk().expectBody().jsonPath("$.data").doesNotExist();
+        webTestClient.get().uri("/result/test5").exchange().expectStatus().isOk().expectBody().jsonPath("$.success").doesNotExist();
     }
 
     @Test
@@ -57,7 +63,6 @@ public class Spring101WebmvcApplicationTests {
         webTestClient.get().uri("/version/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello2zhuye'}");
         webTestClient.get().uri("/v2/version/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello3zhuye'}");
         webTestClient.get().uri("/v3/version/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello3zhuye'}");
-
     }
 
     @Test
@@ -68,9 +73,11 @@ public class Spring101WebmvcApplicationTests {
     }
 
     @Test
-    public void testResultRestController() {
+    public void testRestController() {
         webTestClient.get().uri("/rest/item").exchange().expectStatus().isOk().expectBody().json("{'name':'aa','price':10}");
         webTestClient.post().uri("/rest/item").syncBody(new MyItem("a", 1)).exchange().expectStatus().isOk().expectBody().json("{'name':null,'price':null}");
         webTestClient.post().uri("/rest/item2").syncBody(new MyItem("a", 1)).exchange().expectStatus().isOk().expectBody().json("{'name':'a','price':1}");
+        webTestClient.get().uri("/rest/item/aa").exchange().expectStatus().is5xxServerError();
+        webTestClient.get().uri("/rest/item/0").exchange().expectStatus().is5xxServerError();
     }
 }

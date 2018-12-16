@@ -21,7 +21,7 @@ public abstract class AbstractApiFilter {
             c = preAction(request, response, method);
         } finally {
             try {
-                if (Arrays.asList(getClass().getDeclaredMethods()).stream().filter(m->m.getName().equals("preAction")).findAny().isPresent())
+                if (Arrays.asList(getClass().getDeclaredMethods()).stream().anyMatch(m -> m.getName().equals("preAction")))
                     log.info(String.format("Took [%s] to execute filter [%s:%s] phase [%s] on %s (method:[%s]) => %s",
                             (System.currentTimeMillis() - begin) + "ms",
                             this.getClass().toString(),
@@ -40,7 +40,7 @@ public abstract class AbstractApiFilter {
         long begin = System.currentTimeMillis();
         Object o = beforeReturn(request, response, method, object);
         try {
-            if (Arrays.asList(getClass().getDeclaredMethods()).stream().filter(m->m.getName().equals("beforeReturn")).findAny().isPresent())
+            if (Arrays.asList(getClass().getDeclaredMethods()).stream().anyMatch(m -> m.getName().equals("beforeReturn")))
                 log.info(String.format("Took [%s] to execute filter [%s:%s] phase [%s] on %s (method:[%s])",
                             (System.currentTimeMillis() - begin) + "ms",
                             this.getClass().toString(),
@@ -56,7 +56,7 @@ public abstract class AbstractApiFilter {
         long begin = System.currentTimeMillis();
         postAction(request, response, method);
         try {
-            if (Arrays.asList(getClass().getDeclaredMethods()).stream().filter(m->m.getName().equals("postAction")).findAny().isPresent())
+            if (Arrays.asList(getClass().getDeclaredMethods()).stream().anyMatch(m -> m.getName().equals("postAction")))
                 log.info(String.format("Took [%s] to execute filter [%s:%s] phase [%s] on %s (method:[%s])",
                         (System.currentTimeMillis() - begin) + "ms",
                         this.getClass().toString(),

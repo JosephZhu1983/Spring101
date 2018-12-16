@@ -1,12 +1,12 @@
 package me.josephzhu.spring101webmvc.framework.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import me.josephzhu.spring101webmvc.framework.ApiController;
 import me.josephzhu.spring101webmvc.framework.result.ApiResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @date 2018/12/14
  */
 @Slf4j
-@RestControllerAdvice
+@RestControllerAdvice(annotations = ApiController.class)
 public class ApiExceptionAdvice {
     @ExceptionHandler(Exception.class)
     public ApiResult handleException(HttpServletRequest request, Exception ex) {
@@ -28,20 +28,6 @@ public class ApiExceptionAdvice {
                 .code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                 .data(null)
                 .error(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
-                .message(ex.getMessage())
-                .path(request.getRequestURI())
-                .build();
-    }
-
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public ApiResult handleNoHandlerFoundException(HttpServletRequest request, Exception ex) {
-        logException(request,ex);
-        return ApiResult.builder()
-                .time(System.currentTimeMillis())
-                .success(false)
-                .code(String.valueOf(HttpStatus.NOT_FOUND.value()))
-                .data(null)
-                .error(HttpStatus.NOT_FOUND.getReasonPhrase())
                 .message(ex.getMessage())
                 .path(request.getRequestURI())
                 .build();

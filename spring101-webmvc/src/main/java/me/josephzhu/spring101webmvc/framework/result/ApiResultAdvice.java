@@ -18,7 +18,8 @@ public class ApiResultAdvice implements ResponseBodyAdvice {
 
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
-        return true;
+        return returnType.getMethod().getAnnotationsByType(NoApiResult.class).length == 0 &&
+                returnType.getMethod().getDeclaringClass().getAnnotationsByType(NoApiResult.class).length == 0;
     }
 
     @Override
