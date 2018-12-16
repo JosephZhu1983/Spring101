@@ -10,14 +10,10 @@ import java.lang.reflect.Method;
 
 @Component
 @Slf4j
-public class TestApiFilter1 extends AbstractApiFilter {
-    @Override
-    public void postAction(HttpServletRequest request, HttpServletResponse response, Method method) {
-    }
-
+public class TestApiFilter3 extends AbstractApiFilter {
     @Override
     protected String getDescription() {
-        return "testfilter1";
+        return "testfilter3";
     }
 
     @Override

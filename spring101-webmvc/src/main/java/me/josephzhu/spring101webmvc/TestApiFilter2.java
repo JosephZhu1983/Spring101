@@ -13,14 +13,14 @@ import java.lang.reflect.Method;
 public class TestApiFilter2 extends AbstractApiFilter {
     @Override
     protected String getDescription() {
-        return "测试1";
+        return "testfilter2";
     }
 
     @Override
     public Object beforeReturn(HttpServletRequest request, HttpServletResponse response, Method method, Object object) {
         if (object instanceof MyItem) {
             MyItem myItem = (MyItem) object;
-            myItem.setName("updated by TestApiFilter2 / " + myItem.getName());
+            myItem.setName(myItem.getName() + getDescription());
             return myItem;
         }
         return object;

@@ -2,9 +2,11 @@ package me.josephzhu.spring101webmvc;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class MyItem {
