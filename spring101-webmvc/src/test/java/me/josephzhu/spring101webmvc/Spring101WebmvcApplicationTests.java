@@ -54,10 +54,22 @@ public class Spring101WebmvcApplicationTests {
     }
 
     @Test
+    public void testVersionApiController() throws Exception {
+        webTestClient.get().uri("/v1/version/hello").exchange().expectStatus().isOk().expectBody().json("{'data':'hello1'}");
+        webTestClient.get().uri("/version/hello").exchange().expectStatus().isOk().expectBody().json("{'data':'hello2'}");
+        webTestClient.get().uri("/v2/version/hello").exchange().expectStatus().isOk().expectBody().json("{'data':'hello3'}");
+        webTestClient.get().uri("/v3/version/hello").exchange().expectStatus().isOk().expectBody().json("{'data':'hello3'}");
+        webTestClient.get().uri("/v1/version/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello1zhuye'}");
+        webTestClient.get().uri("/version/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello2zhuye'}");
+        webTestClient.get().uri("/v2/version/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello3zhuye'}");
+        webTestClient.get().uri("/v3/version/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello3zhuye'}");
+    }
+
+    @Test
     public void testMiscApiController() throws Exception {
         webTestClient.post().uri("/misc/item").syncBody(new MyItem("aa", 10))
                 .exchange().expectStatus().isOk().expectBody().json("{'data':{'name':'aa','price':10}}");
-        webTestClient.get().uri("swagger-ui.html#/").exchange().expectStatus().isOk();
+        webTestClient.get().uri("swagger-ui.html#").exchange().expectStatus().isOk();
     }
 
     @Test
