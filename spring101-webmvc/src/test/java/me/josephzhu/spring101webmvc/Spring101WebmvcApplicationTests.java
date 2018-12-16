@@ -24,6 +24,8 @@ public class Spring101WebmvcApplicationTests {
         webTestClient.post().uri("/exception/item").syncBody(new MyItem("a", 1)).exchange().expectStatus().isOk().expectBody().json("{'code':'422','error':'Unprocessable Entity'}");
         webTestClient.post().uri("/exception/item").syncBody(new MyItem("a", 10)).exchange().expectStatus().isOk().expectBody().json("{'code':'422','error':'Unprocessable Entity'}");
         webTestClient.post().uri("/exception/item").syncBody(new MyItem("aa", 10)).exchange().expectStatus().isOk().expectBody().json("{'code':'200'}");
+        webTestClient.post().uri("/exception/itema").syncBody(new MyItem("aa", 10)).exchange().expectStatus().isOk().expectBody().json("{'code':'404'}");
+
     }
 
 
@@ -63,5 +65,12 @@ public class Spring101WebmvcApplicationTests {
         webTestClient.post().uri("/misc/item").syncBody(new MyItem("aa", 10))
                 .exchange().expectStatus().isOk().expectBody().json("{'data':{'name':'aa','price':10}}");
         webTestClient.get().uri("swagger-ui.html#").exchange().expectStatus().isOk();
+    }
+
+    @Test
+    public void testResultRestController() {
+        webTestClient.get().uri("/rest/item").exchange().expectStatus().isOk().expectBody().json("{'name':'aa','price':10}");
+        webTestClient.post().uri("/rest/item").syncBody(new MyItem("a", 1)).exchange().expectStatus().isOk().expectBody().json("{'name':null,'price':null}");
+        webTestClient.post().uri("/rest/item2").syncBody(new MyItem("a", 1)).exchange().expectStatus().isOk().expectBody().json("{'name':'a','price':1}");
     }
 }

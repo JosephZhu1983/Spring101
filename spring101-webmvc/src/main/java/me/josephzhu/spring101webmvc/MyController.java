@@ -1,13 +1,11 @@
 package me.josephzhu.spring101webmvc;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import me.josephzhu.spring101webmvc.framework.exception.ApiException;
 import me.josephzhu.spring101webmvc.framework.filter.ApiFilter;
 import me.josephzhu.spring101webmvc.framework.version.ApiVersion;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -16,31 +14,17 @@ import java.util.List;
 @RequestMapping("rest")
 public class MyController {
 
-    @GetMapping("hello")
-    public String hello(@RequestParam("name") String name) {
-        return "hello " + name;
-    }
-
-    @PostMapping("item")
-    public MyItem setItem(@RequestBody MyItem myItem) {
-        return myItem;
-    }
-
     @ApiFilter(value = TestApiFilter1.class, order = 100)
     @ApiFilter(TestApiFilter2.class)
-    @GetMapping("items")
-    public List<MyItem> getItems() throws InterruptedException {
-        Thread.sleep(1000);
-        List<MyItem> myItems = new ArrayList<>();
-        myItems.add(new MyItem("aa", 10));
-        myItems.add(new MyItem("cc", 20));
-        return myItems;
+    @GetMapping("item")
+    @ApiOperation("filter无效")
+    public MyItem getItem1() {
+        return new MyItem("aa", 10);
     }
 
-    @ApiFilter(TestApiFilter2.class)
     @GetMapping("item/{id}")
-    @ApiVersion({"v2", "v3"})
-    public MyItem getItemv2(@PathVariable("id") String id) {
+    @ApiOperation("异常无法自动包装")
+    public MyItem getItem(@PathVariable("id") String id) {
         Integer i = null;
         try {
             i = Integer.parseInt(id);
@@ -53,4 +37,17 @@ public class MyController {
 
         return new MyItem("item" + id, 10);
     }
+
+    @PostMapping("item")
+    @ApiOperation("需要手动@RequestBody")
+    public MyItem setItem(MyItem item) {
+        return item;
+    }
+
+    @PostMapping("item2")
+    @ApiOperation("需要手动@RequestBody")
+    public MyItem setItem2(@RequestBody MyItem item) {
+        return item;
+    }
+
 }
