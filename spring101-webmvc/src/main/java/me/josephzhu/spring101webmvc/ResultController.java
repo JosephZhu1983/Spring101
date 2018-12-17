@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @ApiController
 @RequestMapping("result")
 @ApiVersion("")
-public class TestResultApiController {
+public class ResultController {
 
     @GetMapping("test1")
     public boolean test1() {

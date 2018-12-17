@@ -3,11 +3,14 @@ package me.josephzhu.spring101webmvc.framework.version;
 import me.josephzhu.spring101webmvc.framework.ApiController;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.web.servlet.mvc.condition.*;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * @author zhuye
@@ -16,39 +19,41 @@ import java.lang.reflect.Method;
 public class ApiVersionHandlerMapping extends RequestMappingHandlerMapping {
 
     @Override
-    protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
-        RequestMappingInfo info = super.getMappingForMethod(method, handlerType);
+    protected void registerHandlerMethod(Object handler, Method method, RequestMappingInfo mapping) {
+        Class<?> controllerClass = method.getDeclaringClass();
 
-        if (AnnotatedElementUtils.hasAnnotation(method.getDeclaringClass(), ApiController.class)) {
-            if (!AnnotatedElementUtils.hasAnnotation(method.getDeclaringClass(), ApiVersion.class))
+        if (AnnotatedElementUtils.hasAnnotation(controllerClass, ApiController.class)) {
+
+            ApiVersion apiVersion = controllerClass.getAnnotation(ApiVersion.class);
+            if (apiVersion == null)
                 throw new RuntimeException("@ApiController class must use @ApiVersion to specify base api version!");
 
             ApiVersion methodAnnotation = AnnotationUtils.findAnnotation(method, ApiVersion.class);
-            if (methodAnnotation != null) {
-                RequestCondition<?> methodCondition = getCustomMethodCondition(method);
-                return createApiVersionInfo(methodAnnotation, methodCondition).combine(info);
-            } else {
-                ApiVersion typeAnnotation = AnnotationUtils.findAnnotation(handlerType, ApiVersion.class);
-                if (typeAnnotation != null) {
-                    RequestCondition<?> typeCondition = getCustomTypeCondition(handlerType);
-                    return createApiVersionInfo(typeAnnotation, typeCondition).combine(info);
-                }
+            if (methodAnnotation != null)
+                apiVersion = methodAnnotation;
+
+            String controllerName = controllerClass.getSimpleName().toLowerCase();
+            final String resourceName = controllerName.contains("controller") ? controllerName.substring(0, controllerName.lastIndexOf("controller")) : "";
+            String[] urlPatterns = apiVersion.value();
+            if (!StringUtils.isEmpty(resourceName) && !AnnotatedElementUtils.hasAnnotation(controllerClass, RequestMapping.class)) {
+                urlPatterns = Arrays.asList(urlPatterns).stream().map(item -> item + "/" + resourceName).toArray(String[]::new);
             }
+
+            PatternsRequestCondition apiPattern = new PatternsRequestCondition(urlPatterns);
+            PatternsRequestCondition oldPattern = mapping.getPatternsCondition();
+            PatternsRequestCondition updatedFinalPattern = apiPattern.combine(oldPattern);
+            mapping = new RequestMappingInfo(
+                    mapping.getName(),
+                    updatedFinalPattern,
+                    mapping.getMethodsCondition(),
+                    mapping.getParamsCondition(),
+                    mapping.getHeadersCondition(),
+                    mapping.getConsumesCondition(),
+                    mapping.getProducesCondition(),
+                    mapping.getCustomCondition()
+            );
         }
 
-        return info;
+        super.registerHandlerMethod(handler, method, mapping);
     }
-
-    private RequestMappingInfo createApiVersionInfo(ApiVersion annotation, RequestCondition<?> customCondition) {
-        String[] patterns = annotation.value();
-        return new RequestMappingInfo(
-                new PatternsRequestCondition(patterns, getUrlPathHelper(), getPathMatcher(), useSuffixPatternMatch(), useTrailingSlashMatch(), getFileExtensions()),
-                new RequestMethodsRequestCondition(),
-                new ParamsRequestCondition(),
-                new HeadersRequestCondition(),
-                new ConsumesRequestCondition(),
-                new ProducesRequestCondition(),
-                customCondition);
-    }
-
 }

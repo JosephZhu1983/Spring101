@@ -6,14 +6,12 @@ import me.josephzhu.spring101webmvc.framework.filter.ApiFilter;
 import me.josephzhu.spring101webmvc.framework.filter.ApiFilterExclude;
 import me.josephzhu.spring101webmvc.framework.version.ApiVersion;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @ApiController
-@RequestMapping("filter")
 @ApiVersion("")
 @ApiFilter(LoginCheck.class)
 @ApiFilter(TestApiFilter3.class)
-public class TestFilterController {
+public class FilterController {
 
     @ApiFilterExclude(LoginCheck.class)
     @ApiFilterExclude(LoginCheck.class)

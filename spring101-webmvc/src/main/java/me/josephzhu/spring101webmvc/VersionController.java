@@ -5,12 +5,10 @@ import me.josephzhu.spring101webmvc.framework.ApiController;
 import me.josephzhu.spring101webmvc.framework.version.ApiVersion;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @ApiController
-@RequestMapping("version")
 @ApiVersion("v1")
-public class TestVersionApiController {
+public class VersionController {
     @GetMapping("hello")
     @ApiOperation("使用定义在Controller的版本号")
     public String hello1() {

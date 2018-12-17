@@ -7,12 +7,10 @@ import me.josephzhu.spring101webmvc.framework.version.ApiVersion;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @ApiController
-@RequestMapping("exception")
 @ApiVersion("")
-public class TestExceptionController {
+public class ExceptionController {
     @GetMapping("item/{id}")
     @ApiOperation("测试异常")
     public MyItem getItem(@PathVariable("id") String id) {
