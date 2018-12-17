@@ -25,12 +25,14 @@ public class ApiVersionHandlerMapping extends RequestMappingHandlerMapping {
         if (AnnotatedElementUtils.hasAnnotation(controllerClass, ApiController.class)) {
 
             ApiVersion apiVersion = controllerClass.getAnnotation(ApiVersion.class);
-            if (apiVersion == null)
+            if (apiVersion == null) {
                 throw new RuntimeException("@ApiController class must use @ApiVersion to specify base api version!");
+            }
 
             ApiVersion methodAnnotation = AnnotationUtils.findAnnotation(method, ApiVersion.class);
-            if (methodAnnotation != null)
+            if (methodAnnotation != null) {
                 apiVersion = methodAnnotation;
+            }
 
             String controllerName = controllerClass.getSimpleName().toLowerCase();
             final String resourceName = controllerName.contains("controller") ? controllerName.substring(0, controllerName.lastIndexOf("controller")) : "";

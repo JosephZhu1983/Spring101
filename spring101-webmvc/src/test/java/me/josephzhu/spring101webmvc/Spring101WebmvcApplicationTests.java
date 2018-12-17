@@ -55,14 +55,14 @@ public class Spring101WebmvcApplicationTests {
 
     @Test
     public void testVersionApiController() throws Exception {
-        webTestClient.get().uri("/v1/version/hello").exchange().expectStatus().isOk().expectBody().json("{'data':'hello1'}");
-        webTestClient.get().uri("/version/hello").exchange().expectStatus().isOk().expectBody().json("{'data':'hello2'}");
-        webTestClient.get().uri("/v2/version/hello").exchange().expectStatus().isOk().expectBody().json("{'data':'hello3'}");
-        webTestClient.get().uri("/v3/version/hello").exchange().expectStatus().isOk().expectBody().json("{'data':'hello3'}");
-        webTestClient.get().uri("/v1/version/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello1zhuye'}");
-        webTestClient.get().uri("/version/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello2zhuye'}");
-        webTestClient.get().uri("/v2/version/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello3zhuye'}");
-        webTestClient.get().uri("/v3/version/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello3zhuye'}");
+        webTestClient.get().uri("/v1/ver/hello").exchange().expectStatus().isOk().expectBody().json("{'data':'hello1'}");
+        webTestClient.get().uri("/ver/hello").exchange().expectStatus().isOk().expectBody().json("{'data':'hello2'}");
+        webTestClient.get().uri("/v2/ver/hello").exchange().expectStatus().isOk().expectBody().json("{'data':'hello3'}");
+        webTestClient.get().uri("/v3/ver/hello").exchange().expectStatus().isOk().expectBody().json("{'data':'hello3'}");
+        webTestClient.get().uri("/v1/ver/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello1zhuye'}");
+        webTestClient.get().uri("/ver/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello2zhuye'}");
+        webTestClient.get().uri("/v2/ver/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello3zhuye'}");
+        webTestClient.get().uri("/v3/ver/hello/zhuye").exchange().expectStatus().isOk().expectBody().json("{'data':'hello3zhuye'}");
     }
 
     @Test
